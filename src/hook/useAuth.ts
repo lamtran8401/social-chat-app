@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react'
-import { User } from '../interface/user.interface'
+import { User } from '../interfaces/user.interface'
 import { AuthContext } from '../provider/auth.provider'
 import { useLocalStorage } from './useLocalStorage'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Control } from 'react-hook-form'
-import { FormControl, FormField, FormItem, FormMessage } from './form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from './form'
 import { Input } from './input'
 
 export interface FormInputProps {
@@ -10,6 +10,7 @@ export interface FormInputProps {
   placeholder?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any, unknown>
+  inline?: boolean
 }
 
 const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
@@ -20,10 +21,10 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
         name={name}
         render={({ field }) => (
           <FormItem>
+            <FormLabel htmlFor={name}>{label}</FormLabel>
             <FormControl>
               <Input
                 id={name}
-                label={label}
                 type={type}
                 placeholder={placeholder}
                 {...field}

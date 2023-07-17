@@ -1,6 +1,6 @@
-import AuthLayout from '@/layout/auth.layout'
-import MainLayout from '@/layout/main.layout'
-import LoginPage from '@/page/login'
+import AuthLayout from '@/layouts/auth.layout'
+import MainLayout from '@/layouts/main.layout'
+import LoginPage from '@/pages/login'
 import { createBrowserRouter } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 
