@@ -8,32 +8,43 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import * as z from 'zod'
 
-const loginFormSchema = z.object({
-  email: z.string().email('Please enter a valid email address.'),
-  password: z.string().min(6, 'Your password must be at least 6 characters long.'),
-})
+const registerFormSchema = z
+  .object({
+    name: z.string().min(3, 'Your name must be at least 3 characters long.'),
+    email: z.string().email('Please enter a valid email address.'),
+    password: z.string().min(6, 'Your password must be at least 6 characters long.'),
+    confirmPassword: z
+      .string()
+      .min(6, 'Your password must be at least 6 characters long.'),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: 'Your password and confirmation password do not match.',
+    path: ['confirmPassword'],
+  })
 
-const LoginPage = () => {
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
+const RegisterPage = () => {
+  const form = useForm<z.infer<typeof registerFormSchema>>({
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   })
 
   const [formError, setFormError] = useState([])
 
-  const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
+  const onSubmit = (values: z.infer<typeof registerFormSchema>) => {
     console.log(values)
   }
 
   return (
-    <div className="flex flex-col justify-center flex-1 h-full min-h-full px-6 py-12 lg:px-8">
+    <div className="flex flex-col justify-center flex-1 min-h-full px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img className="w-auto h-16 mx-auto" src="/logo-chat.png" alt="Your Company" />
         <h2 className="mt-10 text-2xl font-bold leading-9 tracking-tight text-center text-gray-900 dark:text-primary-foreground">
-          Sign in to your account
+          Create your account to get started
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -51,6 +62,13 @@ const LoginPage = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormInput
               control={form.control}
+              name="name"
+              label="Name"
+              type="text"
+              placeholder="Please enter your name"
+            />
+            <FormInput
+              control={form.control}
               name="email"
               label="Email"
               type="email"
@@ -63,8 +81,15 @@ const LoginPage = () => {
               type="password"
               placeholder="Please enter your password"
             />
+            <FormInput
+              control={form.control}
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              placeholder="Please enter your password again"
+            />
             <Button type="submit" size="default" className="w-full">
-              Sign in
+              Sign up
             </Button>
           </form>
         </Form>
@@ -74,11 +99,11 @@ const LoginPage = () => {
           Forgot your password?
         </Link>
         <p className="block mt-4 text-sm font-medium text-center text-gray-600 dark:text-zinc-300">
-          Don't have an account?{' '}
+          Already have an account?{' '}
           <Link
-            to="/auth/register"
+            to="/auth/login"
             className="font-medium text-gray-900 transition-all hover:text-gray-600 dark:text-zinc-200">
-            Register now
+            Login now
           </Link>
         </p>
       </div>
@@ -86,4 +111,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default RegisterPage

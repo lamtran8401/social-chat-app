@@ -76,3 +76,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .ellipsis-line {
+    @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
